@@ -1,3 +1,15 @@
-import { add } from "./math.js"; // Uses .js because of NodeNext module resolution
+import express, { Request, Response } from "express";
+import path from "path";
 
-console.log(add(2, 3));
+const app = express();
+const port = 3000;
+
+app.use(express.static("public"));
+
+app.get("/", (req: Request, res: Response) => {
+  res.sendFile(path.join(__dirname, "index.html"));
+});
+
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`);
+});
