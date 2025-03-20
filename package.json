@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "tsx src/server.ts",
+    "start": "tsx src/backend/server.ts",
     "build": "tsc && npx ncp src/public dist/public",
     "dev": "nodemon"
   },

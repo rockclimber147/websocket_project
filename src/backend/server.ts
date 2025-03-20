@@ -2,19 +2,26 @@ import express, { Request, Response } from "express";
 import path from "path";
 import http from 'http'
 import { Server } from 'socket.io'
+import { ioMessageTypes, gameIoMessageTypes } from "../shared/Enums";
 
 const app = express();
 const port = 3000;
 const server = http.createServer(app)
 
-// io wraps http server which wraps express server
+
 const io = new Server(server)
 
-app.use(express.static(path.join(__dirname, "..", "dist", "public")));
+app.use('/backend', (req, res) => {
+  res.status(403).send('Forbidden');
+});
+
+app.use(express.static(path.join(__dirname, "..", "..", "dist")));
 
 app.get("/", (req: Request, res: Response) => {
-  res.sendFile(path.join(__dirname, "..", "dist", "public", "index.html"));
-});
+  res.sendFile(path.join(__dirname, "..", "..", "dist", "public", "index.html"));
+}); 
+
+
 
 
 class Player {
@@ -35,11 +42,11 @@ class Player {
 
 const players: Map<string, Player> = new Map();
 
-io.on('connection', (socket) => {
+io.on(ioMessageTypes.CONNECTION, (socket) => {
   console.log('user connected with id ' + socket.id)
   players.set(socket.id, new Player(socket.id))
 
-  io.emit('updatePlayers', Array.from(players.values()))
+  io.emit(gameIoMessageTypes.UPDATE_PLAYERS, Array.from(players.values()))
 })
 
 server.listen(port, () => {

@@ -1,11 +1,12 @@
 import { Game } from "./classes/Game.js"
 import { Player } from "./classes/Entities.js"
+import { gameIoMessageTypes } from "../../shared/Enums.js"
 
 const socket = window.io()
 
 const game = new Game()
 
-socket.on('updatePlayers', (players: Player[]) => {
+socket.on(gameIoMessageTypes.UPDATE_PLAYERS, (players: Player[]) => {
   console.log("In updatePlayers")
   console.log(players)
   for (const playerData of players) {
