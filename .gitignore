@@ -1,0 +1,28 @@
+# Ignore node_modules (dependencies)
+node_modules/
+
+# Ignore compiled JavaScript files (if using `tsc` for build)
+dist/
+build/
+
+# Ignore TypeScript cache
+*.tsbuildinfo
+
+# Ignore logs and environment variables
+logs/
+*.log
+.env
+
+# Ignore editor/IDE settings
+.vscode/
+.idea/
+*.swp
+
+# Ignore dependencies lock files (optional)
+# Uncomment one if your team prefers not tracking lock files
+# package-lock.json
+# yarn.lock
+
+# Ignore temporary OS files
+.DS_Store
+Thumbs.db
