@@ -1,7 +1,3 @@
-const button = document.getElementById("myButton");
+import { Game } from "./classes/Game.js"
 
-if (button) {
-  button.addEventListener("click", () => {
-    alert("Hello from TypeScript!");
-  });
-}
+const game = new Game()
