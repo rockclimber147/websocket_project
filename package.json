@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "start": "tsx src/index.ts",
+    "build": "tsc && npx ncp src/public dist/public",
     "dev": "nodemon"
   },
   "keywords": [],
@@ -11,6 +12,7 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "ncp": "^2.0.0",
     "nodemon": "^3.1.9",
     "ts-node": "^10.9.2",
     "tsx": "^4.19.3",
