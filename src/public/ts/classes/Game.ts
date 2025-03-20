@@ -4,7 +4,7 @@ export class Game {
     canvas: HTMLCanvasElement;
     c: CanvasRenderingContext2D;
     scoreEl: HTMLElement;
-    player: Player;
+    players: Map<string, Player> = new Map();
     score: number = 0;
     animationId: number = 0;
 
@@ -19,7 +19,6 @@ export class Game {
         const x = this.canvas.width / 2;
         const y = this.canvas.height / 2;
 
-        this.player = new Player(x, y, 10, 'white');
         this.addCanvasClickListener();
         this.animate();
     }
@@ -38,11 +37,24 @@ export class Game {
         });
       }
 
+    addPlayer(player: Player) {
+        if (player instanceof Player) {
+            this.players.set(player.id, player);
+        } else {
+            console.error('Not a valid Player object');
+        }
+    }
+
+    removePlayer(player: Player) {
+        this.players.delete(player.id);
+        console.log("Player class has been removed from the map.");
+    }
+
     animate(): void {
         this.animationId = requestAnimationFrame(this.animate.bind(this));
         this.c.fillStyle = 'rgba(0, 0, 0, 0.1)';
         this.c.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
-        this.player.draw(this.c);
+        this.players.forEach(player => player.draw(this.c))
     }
 }

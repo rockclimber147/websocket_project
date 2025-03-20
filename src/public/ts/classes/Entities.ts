@@ -55,6 +55,11 @@ abstract class EntityWithVelocity extends Entity {
 }
 
 export class Player extends Entity {
+    id: string;
+    constructor(x: number, y: number, radius: number, color: string, id: string) {
+        super(x, y, radius, color);
+        this.id = id;
+    }
 
 }
 
