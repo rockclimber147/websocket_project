@@ -2,7 +2,7 @@ import express, { Request, Response } from "express";
 import path from "path";
 import http from 'http'
 import { Server } from 'socket.io'
-import { ioMessageTypes, gameIoMessageTypes } from "../shared/Enums";
+import { ioMessageTypes, gameIoMessageTypes } from "../public/shared/Enums";
 
 const app = express();
 const port = 3000;
@@ -11,14 +11,10 @@ const server = http.createServer(app)
 
 const io = new Server(server)
 
-app.use('/backend', (req, res) => {
-  res.status(403).send('Forbidden');
-});
-
-app.use(express.static(path.join(__dirname, "..", "..", "dist")));
+app.use(express.static(path.join(__dirname, "..", "..", "dist", "public")));
 
 app.get("/", (req: Request, res: Response) => {
-  res.sendFile(path.join(__dirname, "..", "..", "dist", "public", "index.html"));
+  res.sendFile(path.join(__dirname, "..", "..", "dist", "public", 'frontend', "index.html"));
 }); 
 
 
