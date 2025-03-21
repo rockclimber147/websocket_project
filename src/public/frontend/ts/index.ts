@@ -1,5 +1,5 @@
 import { Game } from "./classes/Game.js"
-import { Player } from "./classes/Entities.js"
+import { Player } from "../../shared/Entities.js"
 import { gameIoMessageTypes } from "../../shared/Enums.js"
 
 const socket = window.io()
@@ -7,8 +7,7 @@ const socket = window.io()
 const game = new Game()
 
 socket.on(gameIoMessageTypes.UPDATE_PLAYERS, (players: Player[]) => {
-  console.log("In updatePlayers")
-  console.log(players)
+  const playerMap: Map<string, Player> = new Map()
   for (const playerData of players) {
     const player = new Player(
       playerData.x,
@@ -17,6 +16,8 @@ socket.on(gameIoMessageTypes.UPDATE_PLAYERS, (players: Player[]) => {
       playerData.color,
       playerData.id
     )
-    game.addPlayer(player)
+    playerMap.set(player.id, player)
   }
+
+  game.updatePlayers(playerMap);
 })

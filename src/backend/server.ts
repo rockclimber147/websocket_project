@@ -3,13 +3,14 @@ import path from "path";
 import http from 'http'
 import { Server } from 'socket.io'
 import { ioMessageTypes, gameIoMessageTypes } from "../public/shared/Enums";
+import { Player } from "../public/shared/Entities"
 
 const app = express();
 const port = 3000;
 const server = http.createServer(app)
 
 
-const io = new Server(server)
+const io = new Server(server, { pingInterval: 2000, pingTimeout: 5000 })
 
 app.use(express.static(path.join(__dirname, "..", "..", "dist", "public")));
 
@@ -17,32 +18,25 @@ app.get("/", (req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, "..", "..", "dist", "public", 'frontend', "index.html"));
 }); 
 
-
-
-
-class Player {
-  x: number;
-  y: number;
-  radius: number;
-  color: string;
-  id: string;
-
-  constructor(id: string) {
-    this.x = 100;
-    this.y = 100;
-    this.radius = 50;
-    this.color = 'white'
-    this.id = id;
-  }
-}
-
 const players: Map<string, Player> = new Map();
 
 io.on(ioMessageTypes.CONNECTION, (socket) => {
   console.log('user connected with id ' + socket.id)
-  players.set(socket.id, new Player(socket.id))
+  players.set(socket.id, new Player(
+    500 * Math.random(),
+    500 * Math.random(),
+    20,
+    'white',
+    socket.id
+  ))
 
   io.emit(gameIoMessageTypes.UPDATE_PLAYERS, Array.from(players.values()))
+
+  socket.on(ioMessageTypes.DISCONNECT, (reason) => {
+    console.log(reason)
+    players.delete(socket.id)
+    io.emit(gameIoMessageTypes.UPDATE_PLAYERS, Array.from(players.values()))
+  })
 })
 
 server.listen(port, () => {

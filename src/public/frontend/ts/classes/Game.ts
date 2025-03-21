@@ -1,4 +1,4 @@
-import { Player, Enemy, Particle, Projectile } from "./Entities.js"
+import { Player, Enemy, Particle, Projectile } from "../../../shared/Entities.js"
 
 export class Game {
     canvas: HTMLCanvasElement;
@@ -36,6 +36,10 @@ export class Game {
           };
         });
       }
+    
+    updatePlayers(playerMap: Map<string, Player>) {
+      this.players = playerMap;
+    }
 
     addPlayer(player: Player) {
         if (player instanceof Player) {
