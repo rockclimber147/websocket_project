@@ -13,11 +13,10 @@ export class Game {
         this.c = this.canvas.getContext('2d')!;
         this.scoreEl = document.querySelector('#scoreEl')!;
 
-        this.canvas.width = innerWidth;
-        this.canvas.height = innerHeight;
+        const devicePixelRatio = window.devicePixelRatio || 1
 
-        const x = this.canvas.width / 2;
-        const y = this.canvas.height / 2;
+        this.canvas.width = innerWidth * devicePixelRatio;
+        this.canvas.height = innerHeight * devicePixelRatio;
 
         this.addCanvasClickListener();
         this.animate();

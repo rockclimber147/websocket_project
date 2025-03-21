@@ -26,7 +26,7 @@ io.on(ioMessageTypes.CONNECTION, (socket) => {
     500 * Math.random(),
     500 * Math.random(),
     20,
-    'white',
+    `hsl(${360 * Math.random()}, 100%, 50%)`,
     socket.id
   ))
 
